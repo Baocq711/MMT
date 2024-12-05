@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="./output.css" rel="stylesheet" />
+  </head>
+  <body class="font-sans bg-gray-100 min-h-screen text-[#183D3D]">
+    <div class="max-w-3xl mx-auto p-8">
+      <h1 class="text-3xl font-bold text-center mb-8">File Sharing Web</h1>
+      <p class="text-center text-[#5C8374] mb-8">
+        Streaming file transfer over WebTorrent (torrents on the web)
+      </p>
+
+      <div class="flex flex-col gap-6">
+        <div
+          class="border border-solid border-[#040D12] rounded-xl min-h-80 px-[72px] py-6 flex flex-col gap-6 bg-white shadow-2xl"
+        >
+          <div class="text-2xl font-bold">Upload</div>
+          <div
+            id="dropupload"
+            class="h-full border border-dashed border-[#040D12] rounded-xl flex flex-col justify-center items-center gap-6 p-6 min-h-52"
+          >
+            <div>Drag-and-drop files to begin seeding. Or choose a file:</div>
+            <div class="relative flex flex-col justify-center">
+              <button
+                id="chooseFileButton"
+                class="px-4 py-2 bg-[#183D3D] rounded-xl text-white"
+              >
+                Choose file
+              </button>
+              <div
+                class="absolute translate-y-14 bg-[#93B1A6] text-[#183D3D] rounded-lg w-full flex flex-col items-center gap-1 py-2 cursor-pointer hidden"
+                id="fileOptions"
+              >
+                <button onclick="document.getElementById('fileUpload').click()">
+                  Single file
+                </button>
+                <div
+                  class="border-b border-solid border-[#183D3D] h-[1px] w-[calc(100%-32px)]"
+                ></div>
+                <button
+                  onclick="document.getElementById('filesUpload').click()"
+                >
+                  Multi files
+                </button>
+                <input
+                  type="file"
+                  id="fileUpload"
+                  onchange="handleFileUpload(event)"
+                  class="hidden"
+                />
+                <input
+                  type="file"
+                  id="filesUpload"
+                  onchange="handleFilesUpload(event)"
+                  class="hidden"
+                  multiple
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border border-solid border-[#040D12] rounded-xl min-h-80 px-[72px] py-6 flex flex-col gap-6 bg-white shadow-2xl"
+        >
+          <div class="text-2xl font-bold">Download</div>
+
+          <div class="flex gap-4 justify-between flex-col lg:flex-row">
+            <input
+              type="text"
+              class="text-lg w-full px-6 border border-solid border-[#040D12] rounded-lg"
+              placeholder="Magnet link or torrent file URL"
+            />
+            <button class="px-4 py-2 bg-[#183D3D] rounded-xl text-white">
+              Download
+            </button>
+          </div>
+
+          <div
+            id="dropdownload"
+            class="h-full border border-dashed border-[#040D12] rounded-xl flex flex-col justify-center items-center gap-6 min-h-52"
+          >
+            <div>
+              Drag-and-drop files to begin downloading. Or choose a file:
+            </div>
+            <button
+              class="px-4 py-2 bg-[#183D3D] rounded-xl text-white"
+              onclick="document.getElementById('filedownload').click()"
+            >
+              Choose file
+              <input
+                type="file"
+                id="filedownload"
+                onchange="handleFileDownload(event)"
+                class="hidden"
+              />
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-[#183D3D] text-white p-6 text-center rounded-2xl flex flex-col gap-4"
+        >
+          <h1 class="text-3xl">Log</h1>
+          <div class="text-lg">
+            <p>Peers: 1, Progress: 100.0%</p>
+            <p>Download speed: 0 B/s, Upload speed: 0 B/s</p>
+            <p>ETA: Done.</p>
+            <p>File name: ABC.png</p>
+          </div>
+        </div>
+        <div
+          class="bg-[#183D3D] text-white p-6 rounded-2xl flex flex-col gap-4"
+        >
+          <h1 class="text-3xl">List files sharing</h1>
+          <div class="flex flex-col gap-6">
+            <div
+              class="border border-solid border-white py-2 px-4 flex flex-col gap-2 rounded-lg"
+            >
+              <div class="flex justify-between">
+                <div>
+                  <div class="flex">
+                    <div class="flex justify-center items-center size-12">
+                      IC
+                    </div>
+                    <div>
+                      <div class="text-lg">File 8.pdf</div>
+                      <div class="text-sm">1080 bytes</div>
+                    </div>
+                  </div>
+                  <div>Expires in 18 hours or after 100 download</div>
+                </div>
+                <div
+                  class="size-[72px] flex justify-center items-center text-xl"
+                >
+                  X
+                </div>
+              </div>
+              <div class="border-b border-solid border-white"></div>
+              <div class="flex justify-between">
+                <div>Open</div>
+                <div>Copy link</div>
+              </div>
+            </div>
+            <div
+              class="border border-solid border-white py-2 px-4 flex flex-col gap-2 rounded-lg"
+            >
+              <div class="flex justify-between">
+                <div>
+                  <div class="flex">
+                    <div class="flex justify-center items-center size-12">
+                      IC
+                    </div>
+                    <div>
+                      <div class="text-lg">File 8.pdf</div>
+                      <div class="text-sm">1080 bytes</div>
+                    </div>
+                  </div>
+                  <div>Expires in 18 hours or after 100 download</div>
+                </div>
+                <div
+                  class="size-[72px] flex justify-center items-center text-xl"
+                >
+                  X
+                </div>
+              </div>
+              <div class="border-b border-solid border-white"></div>
+              <div class="flex justify-between">
+                <div>Open</div>
+                <div>Copy link</div>
+              </div>
+            </div>
+            <div
+              class="border border-solid border-white py-2 px-4 flex flex-col gap-2 rounded-lg"
+            >
+              <div class="flex justify-between">
+                <div>
+                  <div class="flex">
+                    <div class="flex justify-center items-center size-12">
+                      IC
+                    </div>
+                    <div>
+                      <div class="text-lg">File 8.pdf</div>
+                      <div class="text-sm">1080 bytes</div>
+                    </div>
+                  </div>
+                  <div>Expires in 18 hours or after 100 download</div>
+                </div>
+                <div
+                  class="size-[72px] flex justify-center items-center text-xl"
+                >
+                  X
+                </div>
+              </div>
+              <div class="border-b border-solid border-white"></div>
+              <div class="flex justify-between">
+                <div>Open</div>
+                <div>Copy link</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("chooseFileButton")
+        .addEventListener("click", function () {
+          if (
+            document.getElementById("fileOptions").classList.contains("hidden")
+          ) {
+            document.getElementById("fileOptions").classList.remove("hidden");
+          } else {
+            document.getElementById("fileOptions").classList.add("hidden");
+          }
+        });
+
+      const dropdownload = document.getElementById("dropdownload");
+      dropdownload.addEventListener("dragover", (event) => {
+        event.preventDefault();
+      });
+
+      dropdownload.addEventListener("drop", (event) => {
+        event.preventDefault();
+        const fileName = event.dataTransfer.files[0].name;
+        console.log(fileName);
+      });
+      const dropupload = document.getElementById("dropupload");
+      dropupload.addEventListener("dragover", (event) => {
+        event.preventDefault();
+      });
+
+      dropupload.addEventListener("drop", (event) => {
+        event.preventDefault();
+        const fileName = event.dataTransfer.files[0].name;
+        console.log(fileName);
+      });
+
+      function handleFileDownload(event) {
+        const file = event.target.files[0];
+        if (file) {
+          alert("Bạn đã chọn file: " + file.name);
+        }
+      }
+      function handleFileUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+          alert("Bạn đã chọn file: " + file.name);
+        }
+      }
+      function handleFilesUpload(event) {
+        const files = event.target.files;
+        if (files.length > 0) {
+          const fileNames = Array.from(files)
+            .map((file) => file.name)
+            .join(", ");
+          alert("Bạn đã chọn các file: " + fileNames);
+        }
+      }
+    </script>
+  </body>
+</html>
